@@ -1,22 +1,19 @@
 import express from "express"
 import dbConnect from "./config/db/dbConnect.js"
 import dotenv from "dotenv"
+import userRoute from './routes/userRoute.js'
 
 dotenv.config()
 dbConnect()
 const app = express()
+app.use(express.json({}))
 
 
+app.use(userRoute)
 
 
-app.post('/omid', (req, res) =>{
-    res.json('ok shod')
-})
-app.get("/salam" , (req, res) => {
-    res.json('enam ok shod')
-})
-app.get("/" , (req, res) => {
-    res.json('home page')
+app.post('/', (req,res) => {
+    res.json('hi omid')
 })
 
 
