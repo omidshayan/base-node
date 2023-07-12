@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type: String,
     },
-    profilePhoto:{
+    image:{
         type: String,
         default: ''
     },
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     passwordChangeAt: Date,
     passwordResetToken: String,
     passwordResetExpire: Date,
-    refresh_token:{
+    refreshToken:{
          type: String,
     },
     startDate: { type: Date, default: new Date().getTime() },
@@ -57,5 +57,10 @@ userSchema.pre("save", async function (next){
         this.password = await bcrypt.hash(this.password, salt)
     next()
 })
+
+// check user password for login
+userSchema.methods.isPasswordMatched = async function (enteredPassword){
+    return await bcrypt.compare(enteredPassword, this.password)
+}
 
 export default mongoose.model("User", userSchema)
